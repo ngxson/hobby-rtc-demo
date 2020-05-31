@@ -49,3 +49,34 @@ function hangup() {
     'hangup': 1
   });
 }
+
+// theme utils
+
+function isCurrentThemeDark() {
+  var dark = window.localStorage.getItem('dark');
+  return !!dark;
+}
+
+function toggleTheme() {
+  if (!isCurrentThemeDark()) {
+    setDarkTheme(true);
+    window.localStorage.setItem('dark', 'true');
+  } else {
+    setDarkTheme(false);
+    window.localStorage.removeItem('dark');
+  }
+}
+
+function setDarkTheme(isDark) {
+  if (isDark) {
+    $('body').addClass('dark');
+    $('#toggleThemeBtn').text('Light theme');
+  } else {
+    $('body').removeClass('dark');
+    $('#toggleThemeBtn').text('Dark theme');
+  }
+}
+
+$(document).ready(function () {
+  setDarkTheme(isCurrentThemeDark());
+});

@@ -1,0 +1,129 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width">
+  <meta http-equiv="X-UA-Compatible" content="IE=Edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="robots" content="noindex">
+  <title>RTC Voice Call</title>
+  <style>
+    body {
+      font-family: Arial, Helvetica, sans-serif;
+      background-color: black;
+      background-image: url('https://images.unsplash.com/photo-1513438205128-16af16280739');
+      background-repeat: no-repeat;
+      background-position: center;
+      background-size: cover;
+      color: white;
+      margin: 0 0;
+      padding: 0 0;
+      min-height: 100vh;
+    }
+    #videoView {
+      position: relative;
+      max-width: 100vw;
+      width: 400px;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    #remoteVideo {
+      max-width: 100vw;
+      width: 400px;
+    }
+    #localVideo {
+      max-width: 100px;
+      z-index: 10;
+      position: absolute;
+      bottom: 10px;
+      left: 10px;
+    }
+    .btn {
+      margin: 1em;
+      padding: 0.7em;
+      border: 1px solid white;
+      cursor: pointer;
+    }
+    .btn:hover {
+      background-color: rgba(255, 255, 255, 0.2);
+    }
+    #roomId {
+      font-family: monospace;
+      font-size: 1.25em;
+      padding: 2px;
+      background-color: white;
+      color: black;
+    }
+    #wrapper {
+      background-color: rgba(0, 0, 0, 0.5);
+      position: fixed;
+      width: 100vw;
+      height: 100vh;
+      overflow: auto;
+    }
+  </style>
+</head>
+<body>
+  <center id="wrapper">
+    <h2>Nui RTC Demo</h2>
+
+    <div id="askTurnOnMic" style="display: none;">
+      <p>Please accept camera/microphone permissions</p>
+    </div>
+
+    <div id="micDenided" style="display: none;">
+      <p>Error: Cannot connect to micro</p>
+    </div>
+
+    <div id="errInvalidLink" style="display: none;">
+      <p>Error: Invalid URL</p>
+    </div>
+
+    <div id="hangupMsg" style="display: none;">
+      <p>Call ended</p>
+      <br/>
+      <br/>
+      <br/>
+      <br/>
+      <small><span class="btn" onclick="window.location.reload()">Retry</span></small>
+    </div>
+
+    <div id="mainApp" style="display: none;">
+      Copy this link and send it to your partner:<br/>
+      <small id="curent_url" style="overflow-wrap: anywhere;" onclick="selectText('curent_url')"></small>
+      <br/>
+      <br/>
+
+      <div id="videoView">
+        <video id="localVideo" autoplay playsinline controls muted></video>
+        <video id="remoteVideo" autoplay playsinline controls></video>
+      </div>
+
+      <p><b>Status: </b><span id="status">Waiting...</span></p>
+      <p style="max-width: 480px;"><small>
+        Please keep this tab opened
+
+        <br/>
+        <span id="timer"></span>
+        <br/>
+        <br/>
+        <br/>
+        <span class="btn" onclick="toggleMute()" id="toggleMuteBtn">Mute</span>
+        <span class="btn" onclick="hangup()" id="hangupBtn">End call</span>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <br/>
+        <span id="debug">debug</span>
+      </small></p>
+    </div>
+  </center>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-app.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/7.14.2/firebase-database.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.5.0/jquery.min.js"></script>
+  <script src="firebase-config.js"></script>
+  <script src="utils.js"></script>
+  <script src="controls.js"></script>
+  <script src="script.js"></script>
+</body>
+</html>

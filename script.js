@@ -81,18 +81,13 @@ function setupApp() {
 // startup
 
 $(document).ready(function () {
-  if (roomHash.length !== 12) {
-    $('#errInvalidLink').show();
-  } else {
-    firebase.database().ref('.info/connected').on('value', function (snap) {
-      if (snap.val() === true) {
-        memberRef.child(MYUID).onDisconnect().remove();
-        memberRef.child(MYUID).set('pending').then(setupApp);
-      }
-    });
-    $('#askTurnOnMic').show();
-  }
-
+  firebase.database().ref('.info/connected').on('value', function (snap) {
+    if (snap.val() === true) {
+      memberRef.child(MYUID).onDisconnect().remove();
+      memberRef.child(MYUID).set('pending').then(setupApp);
+    }
+  });
+  $('#askTurnOnMic').show();
   $('#debug').html('Version 1.0<br/>');
 });
 
